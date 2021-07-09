@@ -1,0 +1,6 @@
+{% for i in range(0, 270) %}
+comment{{ i }}:
+  text: {{ faker.sentence(nb_words=10) }}
+  author: {{ random_model('User') }}
+  comment: {{ random_model('Comment') }}
+{% endfor %}
