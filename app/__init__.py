@@ -2,6 +2,7 @@ import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
+from flask_cors import CORS
 from py_yaml_fixtures.flask import PyYAMLFixtures
 from dotenv import load_dotenv
 from app.celery_tasks.celery_utils import init_celery
@@ -11,6 +12,7 @@ load_dotenv()
 db = SQLAlchemy()
 bcrypt = Bcrypt()
 fixtures = PyYAMLFixtures()
+cors = CORS(resources={r"/api/*": {"origins": "*"}})
 
 
 def create_app(config=None, **kwargs):
@@ -32,6 +34,7 @@ def create_app(config=None, **kwargs):
     db.init_app(app)
     bcrypt.init_app(app)
     fixtures.init_app(app)
+    cors.init_app(app)
 
     if kwargs.get("celery_tasks"):
         init_celery(kwargs.get("celery_tasks"), app)
