@@ -6,6 +6,8 @@ from flask_cors import CORS
 from py_yaml_fixtures.flask import PyYAMLFixtures
 from dotenv import load_dotenv
 from app.celery_tasks.celery_utils import init_celery
+import pymysql
+pymysql.install_as_MySQLdb()
 
 load_dotenv()
 
