@@ -8,6 +8,9 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    env:
+      FLASK_APP: main.py
+      SQLALCHEMY_DATABASE_URI_TEST: 'mysql+pymysql://root:root@0.0.0.0:3306/test'
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python 3.9
@@ -22,7 +25,8 @@ jobs:
         run: black .
       - name: Set up test db
         uses: mirromutth/mysql-action@v1.1
-        with:
+      - name: Run test
+        run: flask test
 
   build:
     runs-on: ubuntu-latest
