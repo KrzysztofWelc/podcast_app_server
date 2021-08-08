@@ -54,13 +54,9 @@ def answer_comment(comment_id, answer_text, user):
     comment_author = comment.author
     podcast_author = comment.podcast.author
     if user.id not in [comment_author.id, podcast_author.id]:
-        raise OperationNotPermitted(t('cant_do_error'))
+        raise OperationNotPermitted(t("cant_do_error"))
 
-    a = AnswerComment(
-        text=answer_text,
-        comment_id=comment_id,
-        user_id=user.id
-    )
+    a = AnswerComment(text=answer_text, comment_id=comment_id, user_id=user.id)
     db.session.add(a)
     db.session.commit()
     return a
@@ -69,7 +65,7 @@ def answer_comment(comment_id, answer_text, user):
 def delete_answer(answer_id):
     a = AnswerComment.query.filter_by(id=answer_id).first()
     if a.user_id != request.user.id:
-        raise ValidationError(t('cant_do_error'))
+        raise ValidationError(t("cant_do_error"))
     db.session.delete(a)
     db.session.commit()
 
@@ -77,7 +73,7 @@ def delete_answer(answer_id):
 def patch_answer(answer_id, text):
     a = AnswerComment.query.filter_by(id=answer_id).first()
     if a.user_id != request.user.id:
-        raise ValidationError(t('cant_do_error'))
+        raise ValidationError(t("cant_do_error"))
     a.text = text
     db.session.commit()
     return a

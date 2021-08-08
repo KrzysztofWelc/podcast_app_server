@@ -11,24 +11,24 @@ class RegisterSchema(Schema):
 
     @validates_schema
     def validate_pwd_check(self, data, **kwargs):
-        if data['password'] != data['password2']:
-            raise ValidationError({'password2': [t('passwords_match_error')]})
+        if data["password"] != data["password2"]:
+            raise ValidationError({"password2": [t("passwords_match_error")]})
 
     @validates_schema
     def validate_email_accessibility(self, data, **kwargs):
-        user = User.query.filter_by(email=data['email']).first()
+        user = User.query.filter_by(email=data["email"]).first()
         if user:
-            raise ValidationError({'email': [t('email_taken_error')]})
-        if len(data['email']) > 120:
-            raise ValidationError({'email': [t('email_too_long_error')]})
+            raise ValidationError({"email": [t("email_taken_error")]})
+        if len(data["email"]) > 120:
+            raise ValidationError({"email": [t("email_too_long_error")]})
 
     @validates_schema
     def validate_username_accessibility(self, data, **kwargs):
-        user = User.query.filter_by(username=data['username']).first()
+        user = User.query.filter_by(username=data["username"]).first()
         if user:
-            raise ValidationError({'username': [t('username_taken_error')]})
-        if len(data['username']) > 120:
-            raise ValidationError({'username': [t('username_too_long_error')]})
+            raise ValidationError({"username": [t("username_taken_error")]})
+        if len(data["username"]) > 120:
+            raise ValidationError({"username": [t("username_too_long_error")]})
 
 
 class ChangePwdSchema(Schema):
@@ -54,5 +54,5 @@ class ChangeBioSchema(Schema):
 
     @validates_schema
     def validate_bio(self, data, **kwargs):
-        if len(data['bio']) > 500:
-            raise ValidationError({'bio': [t('bio_length_error')]})
+        if len(data["bio"]) > 500:
+            raise ValidationError({"bio": [t("bio_length_error")]})

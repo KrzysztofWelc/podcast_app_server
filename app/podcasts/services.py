@@ -15,7 +15,9 @@ def delete_podcast(podcast):
     db.session.query(PopularPodcast).filter_by(podcast_id=podcast_id).delete()
     db.session.delete(podcast)
     db.session.commit()
-    path = os.path.abspath(os.path.join(app.root_path, 'static', 'podcasts', podcast.audio_file))
+    path = os.path.abspath(
+        os.path.join(app.root_path, "static", "podcasts", podcast.audio_file)
+    )
     os.remove(path)
 
 
@@ -49,7 +51,7 @@ def save_cover(file):
     random_hex = secrets.token_hex(8)
     _, f_ext = os.path.splitext(file.filename)
     new_filename = random_hex + f_ext
-    file_path = os.path.join(app.root_path, 'static/podcast_covers', new_filename)
+    file_path = os.path.join(app.root_path, "static/podcast_covers", new_filename)
 
     i = Image.open(file)
     i.thumbnail((200, 200))
@@ -62,7 +64,7 @@ def save_audio(file):
     random_hex = secrets.token_hex(8)
     _, f_ext = os.path.splitext(file.filename)
     new_filename = random_hex + f_ext
-    file_path = os.path.join(app.root_path, 'static/podcasts', new_filename)
+    file_path = os.path.join(app.root_path, "static/podcasts", new_filename)
 
     file.save(file_path)
 
@@ -73,8 +75,13 @@ def get_user_podcasts(user_id, page):
     page = int(page)
     user = User.query.filter_by(id=user_id).first()
     if not user:
-        raise ResourceNotFound('no such a user.')
-    podcasts = Podcast.query.filter_by(user_id=user.id).offset((page - 1) * PAGE_SIZE).limit(PAGE_SIZE).all()
+        raise ResourceNotFound("no such a user.")
+    podcasts = (
+        Podcast.query.filter_by(user_id=user.id)
+        .offset((page - 1) * PAGE_SIZE)
+        .limit(PAGE_SIZE)
+        .all()
+    )
     is_more = Podcast.query.filter_by(user_id=user.id).count() > (page - 1) * 10 + 10
 
     return podcasts, is_more
@@ -83,9 +90,17 @@ def get_user_podcasts(user_id, page):
 def get_new_podcasts(page):
     page = int(page)
 
-    podcasts = db.session.query(Podcast).order_by(Podcast.publish_date.desc()).offset((page - 1) * PAGE_SIZE).limit(
-        PAGE_SIZE).all()
-    is_more = db.session.query(Podcast).order_by(Podcast.publish_date.desc()).count() > (page - 1) * 10 + 10
+    podcasts = (
+        db.session.query(Podcast)
+        .order_by(Podcast.publish_date.desc())
+        .offset((page - 1) * PAGE_SIZE)
+        .limit(PAGE_SIZE)
+        .all()
+    )
+    is_more = (
+        db.session.query(Podcast).order_by(Podcast.publish_date.desc()).count()
+        > (page - 1) * 10 + 10
+    )
 
     return podcasts, is_more
 

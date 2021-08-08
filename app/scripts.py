@@ -7,7 +7,11 @@ from faker import Faker
 
 
 def set_most_popular_script():
-    views_from_yesterday = db.session.query(View).filter(View.timestamp == date.today() - timedelta(days=1)).all()
+    views_from_yesterday = (
+        db.session.query(View)
+        .filter(View.timestamp == date.today() - timedelta(days=1))
+        .all()
+    )
     if len(views_from_yesterday) == 0:
         return 0
 
@@ -35,7 +39,12 @@ def set_most_popular_script():
         pps = PopularPodcast.query.all()
 
         limit = 10 - len(most_popular_podcast_ids)
-        pps = db.session.query(PopularPodcast).order_by(PopularPodcast.views.asc()).limit(limit).all()
+        pps = (
+            db.session.query(PopularPodcast)
+            .order_by(PopularPodcast.views.asc())
+            .limit(limit)
+            .all()
+        )
         for pp in pps:
             db.session.delete(pp)
 
@@ -62,8 +71,11 @@ def generate_fake_views_script():
 
     for p in podcasts:
         for _ in range(0, randint(10, 40)):
-            v = View(podcast_id=p.id, timestamp=faker.date_between(start_date='-3d', end_date='today'))
+            v = View(
+                podcast_id=p.id,
+                timestamp=faker.date_between(start_date="-3d", end_date="today"),
+            )
             db.session.add(v)
 
     db.session.commit()
-    print('Done')
+    print("Done")

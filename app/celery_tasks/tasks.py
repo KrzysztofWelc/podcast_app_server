@@ -9,4 +9,3 @@ def add_view_record(file_name):
     v = View(podcast=p)
     db.session.add(v)
     db.session.commit()
-
