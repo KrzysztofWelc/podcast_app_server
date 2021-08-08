@@ -25,6 +25,8 @@ jobs:
         run: black .
       - name: Set up test db
         uses: mirromutth/mysql-action@v1.1
+        with:
+          mysql root password: root
       - name: Run test
         run: flask test
 
