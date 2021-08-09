@@ -8,6 +8,14 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: test
+        ports:
+            - 3306
     env:
       FLASK_APP: main.py
       SQLALCHEMY_DATABASE_URI_TEST: 'mysql+pymysql://root:root@0.0.0.0:3306/test'
@@ -23,10 +31,6 @@ jobs:
           pip install -r requirements.txt
       - name: Format with black
         run: black .
-      - name: Set up test db
-        uses: mirromutth/mysql-action@v1.1
-        with:
-          mysql root password: root
       - name: Run test
         run: flask test
 
