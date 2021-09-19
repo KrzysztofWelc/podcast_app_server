@@ -8,6 +8,7 @@ app/static/avatars/*
 app/static/podcast_covers/*
 !app/static/podcast_covers/default.jpg
 app/.env
+.env
 **/*.pyc
 .idea/**
 **/node_modules
