@@ -6,7 +6,7 @@ ENV FLASK_APP=main.py
 WORKDIR /d_add
 
 #copy all the files
-COPY . /d_add
+COPY . /d_add   
 
 #Install the dependencies
 RUN apt-get -y update
@@ -17,4 +17,4 @@ RUN pip3 install -r requirements.txt
 EXPOSE 8000
 
 #Run the command
-CMD gunicorn wsgi:application --bind 127.0.0.1:8000
+CMD gunicorn wsgi:application --bind 0.0.0.0:$PORT
