@@ -9,7 +9,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 class BaseConfig:
     SECRET_KEY = os.getenv("SECRET_KEY")
-    SQLALCHEMY_DATABASE_URI = "postgresql+psycopg2://{}:{}@postgre_db:5432/{}".format(
+    SQLALCHEMY_DATABASE_URI = "postgresql+psycopg2://{}:{}@postgre-db:5432/{}".format(
         os.getenv('DB_USER'),
         os.getenv('DB_PASSWORD'),
         os.getenv('DB_NAME'),
